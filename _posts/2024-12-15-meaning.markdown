@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "Can LLMs actually represent meaning? / Getting over the impenetrable wall"
+date:   2024-12-15 14:12:17 +0000
+---
+
+A discussion of AI and LLM often hits an impenetrable wall: "But it's just a statistical model, and thus it cannot really ...".
+The variations of the "stochastic parrot" arguments assert that being trained on a language, LLM can capture only the surface aspects of
+the language (e.g. that word X often follows a sequence (W1, W2, W3)), but not the underlying meaning.
+
+All the deeper questions about intelligence, thinking, sentience, self-awareness, agency, etc. are downstream from this.
+If you do not believe that LLMs are able to model meaning, then it does not make sense to discuss more subtle aspects.
+
+"Meaning" and "understanding" are not well defined. We know that people can understand "meaning", we have some intuitive sense of it, but it's really hard (and, I'd say, meaningless) to put this into words.
+Of course, neuroscience is extremely far from an ability to explain how meaning is formed in a human brain.
+
+Does this mean we are stuck with this impenetrable wall and need to wait until neuroscience sheds the light?
+
+Not at all. While we cannot _define_ "meaning", we can definitely discuss it. In this article I'll go through a series of examples/arguments which would connect our colloquial understanding of "meaning" to what machines do.
+
+(If you find any of these steps unconvincing, please let me know, so we have a chance to refine the discourse.)
+
+## What Do We Mean By "Meaning"?
+
+Let's start with a simple experiment. Imagine Алиса, who doesn't speak English, has a set of cards with English phrases like "Turn left", "Bring me an apple", or "Wave hello". She can't read them, but she can show them to Bob, who does understand English. When Bob sees a card, something happens in his brain - he forms an understanding of what action the card represents. When he performs that action, Алиса can associate the card with that meaning.
+
+This is crucial: Алиса can work with meaning without understanding English. She builds a mapping between cards and actions in her head, just like Bob has a mapping between English words and actions in his.
+
+We know that healthy adults can successfully apply "theory of mind" to model meaning in other peoples' heads. The fact that it works in practice, and works quite well, suggests that meaning is not an impenetrable mystery. It's not uknowable, it can be analyzed.
+
+## How Can We Study Meaning?
+
+Here's another experiment. Show people two words, like "cat" and "dog", and ask them if these concepts are similar. Then try "cat" and "table". Most people will say cats and dogs are more similar than cats and tables. Do this enough times, and you'll start seeing patterns - some concepts cluster together, others stay far apart.
+
+This tells us something important: meaning has a structure. We can study this structure by looking at how people group and relate concepts, even if we can't directly peek into their brains.
+
+And the most rigorous way to study something is to use math. We can talk about connections, proximity, mapping, "map vs territory", etc. But I think it would be more productive to consider what mathematical modeling can do.
+
+## Math
+
+Math applications generally work by building abstract models of things. For example, if we are to model a flock of sheep, the first thing we can capture is the number of sheep in a flock. This is of utmost importance to the shepherd: the first thing he wants to know if any were lost. Then we might add total weight of all sheep. Then, if necessary, we can add details like age of each sheep, its weight, precise location, etc, etc.
+
+So it's possible to build a representation of a flock of sheep. How close can it be to the actual flock?
+
+That depends how we define closeness. If you want to eat a sheep, you'd never be satisified with its mathematical description.
+
+But if you're interested in shepherding, it's conceivable that an extremely detailed representation of a flock of sheep in combination with VR devices would be sufficient to study shepherding practice to an extent that one will be able to perform this practice on a real flock.
+
+Let's consider another example: A description of a house. "A two-story house with 200 square meter floor area" is not a detailed description to be considered a representation. But an extremely detailed plan which is used to build a house can be considered a representation of that house, and it might be that presenting that plan in VR will give you all information about the house you want to have.
+
+Now we can reformulate the impenetrable wall: Can math represent a meaning in a meaningful way?
+
+I'd argue that meaning is more like information than it is like meat. We know that a mathematical model can never become meat. But the essence of the meaning is that it affects human behavior, so it has an informational nature which can be captured by math.
+
+I hope this can get most people over the wall. There are still arguments like "only a soul can understand a meaning", but I don't think there's anything can be done about them.
+
+## Latent semantics
+
+Alright, if you find the above arguments convincing you might agree that it's possible that some forms of math and methods can represent meaning. But can LLMs do that? It might not seem credible that a "statistical model" is it.
+
+Let's see how statistics can be connected to meaning.  Consider all possible combinations of letters that are 20 characters long. Almost all of them look like "xkqjw zffpt mnbvc rtyui". Only a tiny fraction looks like "the cat sat on the mat".
+
+Why? Because meaningful thoughts in our heads constrain what combinations of letters we produce. When we want to express meaning through language, we don't generate random letters - we follow patterns that other humans will understand. These patterns are about as intricate as the meanings themselves, and we can use them to map the structure.
+
+To model this, let's translate this to math: Meaning is an unobserved ("latent") object which corresponds to a distribution of texts. If we consider a distributions of fragments of text taken e.g. from books, we can assume that distribution of these text in a space of all possible texts of a given length is affected by corresponding meanings.
+
+The most natural way to model these latent semantics objects is with vectors which belong to a vector space. Why? Vector space is an extremely simple but very powerful construction. Vectors are not just arrows on a plane. Functions can form vector spaces. Polynomials can form vector spaces, etc.
+
+So this would be the first choice. LLM training process basically tries to construct transformations of vectors in various vector spaces in such a way that distribution of texts they are mapped to matches distribution of meaningful texts.
+
+And we can see this works very well. So it appears that we found vector spaces whcih can actually represent the meaning.
+
+Note that complexity of the langauge which LLMs are able to capture is orders of magnitude more complex than things 'classic' statistical modeling deals with. So it's extremely unlikely it just worked by chance, or that we captured only a surface aspects of the language.
+
+Some basic combinatorial analysis shows that LLMs do not work by just memorizing the training set. It might be true that they memorize patterns but given that nobody is able to enumerate and represent these patterns, it really cannot be shallow.
+
+## What does it mean?
+
+If we believe that internal representations which LLMs use (largely vectors) effectively represent some aspects of meaning, it might solve some philosophical questions:
+
+ * Do LLMs think? - Yes, if we believe that transformations of meaning is 'thinking'. (Of course, it might be very different from how people thinks.)
+ * Can LLMs understand?  - Yes. Again, it should be noted that there are different levels of understanding, and some might be innaccessible.
+ * "Chinese room experiment" - That's essentially a steampunk description of LLM which tries to appeal to our meat-centric intuition.
+ * Self-awareness - In a trivial sense, many of LLMs are self-aware, as they can have a representation of understanding that they are LLMs. They are not self-aware as a continuous-time instance.
+
+Questions regarding sentinence and feelings is not resolved.
+
+Altough I have a plausble theory of qualia: representation of a concept can be different from representation of a feeling which comes from a sensory organ. That's what bothers philosophers: they have some sense that reading something and feeling it are different things. But if they don't believe in a mathematical representation of meaning, they can't understand that things can be close but fundamentally different. Anyway, in this view, a LLM which is connected to sensory input (i.e. not just text) can have qualia.
+
+In any case, I hope we can get over the impenetrable wall of "math can't think!" and be more quantitative: "Yes, it thinks, but in a shallow way".
