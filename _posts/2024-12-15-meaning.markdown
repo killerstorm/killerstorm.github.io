@@ -62,7 +62,7 @@ Let's see how statistics can be connected to meaning.  Consider all possible com
 
 Why? Because meaningful thoughts in our heads constrain what combinations of letters we produce. When we want to express meaning through language, we don't generate random letters - we follow patterns that other humans will understand. These patterns are about as intricate as the meanings themselves, and we can use them to map the structure.
 
-To model this, let's translate this to math: Meaning is an unobserved ("latent") object which corresponds to a distribution of texts. If we consider a distributions of fragments of text taken e.g. from books, we can assume that distribution of these text in a space of all possible texts of a given length is affected by corresponding meanings.
+To model this, let's translate this to math: We can conceive of meaning as a latent variable corresponding to a distribution of texts. (Latent variable - something which exists but we cannot directly observe.)  If we consider a distributions of fragments of text taken e.g. from books, we can assume that distribution of these text in a space of all possible texts of a given length is affected by corresponding meanings.
 
 The most natural way to model these latent semantics objects is with vectors which belong to a vector space. Why? Vector space is an extremely simple but very powerful construction. Vectors are not just arrows on a plane. Functions can form vector spaces. Polynomials can form vector spaces, etc.
 
@@ -85,6 +85,6 @@ If we believe that internal representations which LLMs use (largely vectors) eff
 
 Questions regarding sentinence and feelings is not resolved.
 
-Altough I have a plausble theory of qualia: representation of a concept can be different from representation of a feeling which comes from a sensory organ. That's what bothers philosophers: they have some sense that reading something and feeling it are different things. But if they don't believe in a mathematical representation of meaning, they can't understand that things can be close but fundamentally different. Anyway, in this view, a LLM which is connected to sensory input (i.e. not just text) can have qualia.
+Altough I have a plausible theory of qualia: representation of a concept can be different from representation of a feeling which comes from a sensory organ. That's what bothers philosophers: they have some sense that reading something and feeling it are different things. But if they don't believe in a mathematical representation of meaning, they can't understand that things can be close but fundamentally different. Anyway, in this view, a LLM which is connected to sensory input (i.e. not just text) can have qualia.
 
 In any case, I hope we can get over the impenetrable wall of "math can't think!" and be more quantitative: "Yes, it thinks, but in a shallow way".
