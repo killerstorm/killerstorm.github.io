@@ -30,7 +30,7 @@ and Opus 4 are quite good at guessing viability, potential outcomes, etc.)
 New version of Claude Opus 4 is pretty damn smart, so perhaps all we need to do is to 'park' Claude while the experiment
 is running, and later wake it up and ask to analyze the logs and improve the code?
 
-That's exactly what I did (with help of Claude itself, of course): https://github.com/killerstorm/claude-torch-template
+That's exactly what I did (with help of Claude itself, of course): [github:claude-torch-template](https://github.com/killerstorm/claude-torch-template)
 and it sort of works... it can make progress on relatively simple tasks, in most cases, and it displays problem-solving
 skills, e.g. find a workaround for a missing or ill-behaved library. But it's quite expensive as Claude goes through
 many steps on every iteration, re-reading docs, patching code, etc.
@@ -39,7 +39,7 @@ Given that we are working with code with can fit into one file, we can use a dif
 a new version of train.py based on a version from the previous run, taking into account what we see in the log.
 That is compatible with any LLM which can write code.
 
-**So that's the next version, auto-ml-runner:** https://github.com/killerstorm/auto-ml-runner (also written largely by Opus 4)
+**So that's the next version, auto-ml-runner:** [github:auto-ml-runner](https://github.com/killerstorm/auto-ml-runner) (also written largely by Opus 4)
 
 It adopts a more elaborate flow: first `IDEA.md` is transformed into `PLAN.md`. Then model writes code (a single is easiest
 to work with), logs are summarized and then analyzed. Then everything is fed into the next iteration of code.
