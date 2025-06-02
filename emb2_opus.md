@@ -1,12 +1,11 @@
 ---
-title:  "AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation"
 date:   2025-05-31
 layout: page
 exclude: true
 ---
 
 
-# Final Experiment Report: Embedding Injection for Parameter-Efficient Model Adaptation
+# AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation
 
 **Experiment ID:** exp_20250602_042433_emb2_opus  
 **Date:** June 2, 2025  
