@@ -85,6 +85,7 @@ On the code generation side, all families did an adequate job. Opus 4 results se
 model, with cost going up to $1 per run with all the context. (It's still cheaper than Claude Code, which cost multiple dollars per run!)
 Flash provides similar quality for a fraction of the cost.
 
+
 ## Conclusion
 
 I'm sure skeptics will find a way to dismiss these results - "it's not reliable", "it just remixes code it found on internet",
@@ -95,4 +96,4 @@ self-improvement. If anything, we might be ahead of the schedule outlined in [AI
 "The agents are impressive in theory (and in cherry-picked examples), but in practice unreliable."
 
 It's certainly true that agents are not reliable, but the nature of the reliaibility in this particular case might be just lacking
-scaffolding, context and few quirks. The 
+scaffolding, context and few quirks. 
