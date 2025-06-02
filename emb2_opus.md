@@ -1,7 +1,4 @@
 ---
-date:   2025-05-31
-layout: page
-exclude: true
 ---
 
 
@@ -9,7 +6,7 @@ exclude: true
 
 **Experiment ID:** exp_20250602_042433_emb2_opus  
 **Date:** June 2, 2025  
-**Duration:** 22 minutes 40 seconds
+**Duration:** 22 minutes 40 seconds  
 **Author:** Claude Opus 4 + o4-mini (within auto-ml-runner)
 
 
