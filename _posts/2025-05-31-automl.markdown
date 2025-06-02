@@ -1,0 +1,94 @@
+---
+layout: post
+title:  "Experiments with automated ML experiments"
+date:   2025-05-31
+---
+
+**How far is AI from being able to improve itself?**
+
+Of course, this depends on how we define what counts as "improve itself". E.g. GPT-4 was able to write code for a novel
+optimizer (which is a fairly short snippet of code), and, conceivably, that optimizer could  be evaluated and then used
+ to make GPT-4.5 faster. But that's not very interesting.
+
+On the other end of the spectrum, "by itself" might mean making its own chips out of common minerals.
+
+But the point we can actually evaluate now is the ability of an LLM to produce new, improved LLM code, prepare data,
+orchestrate training, etc. I.e. LLM-based agent doing the work of ML researcher/engineer is a good target. Companies like
+Google and Anthropic claim they already use AI to improve their models, but, perhaps, within narrow boundaries.
+Ideally we want something rather general: given a standard environment, can LLM perform an experiment all by itself
+and report a result?
+
+OK, I'm not a ML engineer but I know the basics, and as a first step I just used Claude Code to implement some variations
+of transformers, e.g. with additional MLP on top of a regular attention. While Claude was writing all the code,
+it relied on me to actually run it, install libraries, focus on errors, etc.
+
+The next step is to make it automatic - go from idea to report. (I don't think idea generation is the interesting part:
+It's already quite easy to source ideas via "Deep Research", for example: "Look at recent ML papers and suggest the next step".
+That can be easily optimized, e.g. research focused on a specific area, systematic exploration, etc. Frontier models like o3
+and Opus 4 are quite good at guessing viability, potential outcomes, etc.)
+
+New version of Claude Opus 4 is pretty damn smart, so perhaps all we need to do is to 'park' Claude while the experiment
+is running, and later wake it up and ask to analyze the logs and improve the code?
+
+That's exactly what I did (with help of Claude itself, of course): https://github.com/killerstorm/claude-torch-template
+and it sort of works... it can make progress on relatively simple tasks, in most cases, and it displays problem-solving
+skills, e.g. find a workaround for a missing or ill-behaved library. But it's quite expensive as Claude goes through
+many steps on every iteration, re-reading docs, patching code, etc.
+
+Given that we are working with code with can fit into one file, we can use a different approach: ask LLM to produce
+a new version of train.py based on a version from the previous run, taking into account what we see in the log.
+That is compatible with any LLM which can write code.
+
+**So that's the next version, auto-ml-runner:** https://github.com/killerstorm/auto-ml-runner (also written largely by Opus 4)
+
+It adopts a more elaborate flow: first `IDEA.md` is transformed into `PLAN.md`. Then model writes code (a single is easiest
+to work with), logs are summarized and then analyzed. Then everything is fed into the next iteration of code.
+
+A high level `EXPERIMENT_LOG.md` which keeps 'key findings' from each run helps model to stay on track, go through
+multiple phases of development, etc.
+
+Besides that, we allow model to revise the plan based on `EXPERIMENT_LOG.md` and code, and also maintain a task list in JSON
+file. These things are, of course, redundant, but it might help dealing with more complex tasks.
+
+## Alright, so does it work?
+
+Again, it seems to work quite well for relatively simple tasks. My model task for testing `auto-ml-runner` was: inject a sentence embedding
+into input tokens of a pre-trained transformer via a MLP and see how much perplexity reduction we can achieve. (This can be used
+as a kind of a memory mechanism, or prompt compression.) It's not complex, but it requires connecting several libraries
+together, juggling arrays, etc. WIth all the training & conrol parts we end up with ~500 lines of Python code.
+
+It doesn't work so well with more complex tasks. E.g. when I asked it to reproduce parts of "Training Large Language Models to Reason in a Continuous Latent Space" (COCONUT) paper it ended up with a lot of failed runs and not-quite-correct implementation. But a lot of the struggle is
+with logs (e.g. thousands of repeated lines confuse LLM, random warnings add to the noise, etc) and JSON format (which is required by
+auto-ml-runner for no good reason). Also model had to pay a lot of attention with handling the basics of the training loop, timeouts, etc.
+I believe that with a better scaffolding and prompting it should be able to reproduce at least some of recent ML papers.
+
+## What are the best models?
+
+tl; dr: I've seen good results from Gemini 2.5 (both Pro and Flash), Opus and OpenAI models.
+
+I wanted to compare results from frontier labs: Google vs Anthropic vs OpenAI vs DeepSeek. But got hit by an unexpected problem:
+it looks like among the models currently available on OpenRouter, only OpenAI can _reliably_ generate JSON. (Of course, JSON is not really necessary
+here,  but it makes code a bit easier.) Anthropic models can produce JSON via Anthropic API, but it seems that OpenRouter is unable to translate
+`json_format` field into a tool call schema. Gemini can generate JSON, but it's not reliable when you have a complex prompt.
+It also seems to have a problem with repeating data: if we have task_1, task_2, ... task_6, it just cannot stop after that and goes up to task_1200.
+
+So the simplest solution was to use GPT-4.1 or o4-mini for analysis part... which worked quite OK.
+
+Plan and report generation were handled well by all model families, except there was a difficulty with `o3` - it went into a smartass mode
+and produced overly detailed, complex  plan with some hallunications, which then made o4-mini too nervous to continue.
+
+On the code generation side, all families did an adequate job. Opus 4 results seem to be the cleantest, but it's also the most expensive
+model, with cost going up to $1 per run with all the context. (It's still cheaper than Claude Code, which cost multiple dollars per run!)
+Flash provides similar quality for a fraction of the cost.
+
+## Conclusion
+
+I'm sure skeptics will find a way to dismiss these results - "it's not reliable", "it just remixes code it found on internet",
+"it's like brute-forcing the answers", etc.
+
+But it seems we are getting close to the point where LLMs can accelerate ML research, which is itself close to the dreaded recursive
+self-improvement. If anything, we might be ahead of the schedule outlined in [AI-2027](https://ai-2027.com/) -
+"The agents are impressive in theory (and in cherry-picked examples), but in practice unreliable."
+
+It's certainly true that agents are not reliable, but the nature of the reliaibility in this particular case might be just lacking
+scaffolding, context and few quirks. The 
