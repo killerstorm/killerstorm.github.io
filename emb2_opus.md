@@ -1,6 +1,8 @@
 ---
 title:  "AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation"
 date:   2025-05-31
+layout: page
+exclude: true
 ---
 
 
