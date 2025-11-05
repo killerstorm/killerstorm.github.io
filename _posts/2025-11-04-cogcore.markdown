@@ -1,0 +1,85 @@
+---
+layout: post
+title:  "The future of LLMs: cognitive core + cartridges?"
+date:   2025-11-04
+categories: ai
+---
+
+Andrej Karpathy introduced a concept of a "cognitive core":
+
+ * [post #1](https://x.com/karpathy/status/1938626382248149433): "a few billion param model that maximally sacrifices encyclopedic knowledge for capability"
+ * [post #2](https://x.com/karpathy/status/1979644538185752935): "the idea of stripping down LLMs, of making it harder for them to memorize, or actively stripping away their memory, to make them better at generalization"
+
+Note that in the first post, the motivation for stripping down LLM was "LLM personal computing" (perhaps, aiming at privacy, personalization, etc.). 
+
+But in the subsequent post (as well as a related [interview with Dwarkesh Patel](https://x.com/dwarkesh_sp/status/1979234976777539987)),
+Karpathy describes it as a likely path to better agentic LLMs: "If they had less knowledge or less memory, maybe they would be better.":
+
+> Otherwise they lean too hard on what they've memorized. Humans can't memorize so easily, which now looks more like a feature than a bug by contrast. Maybe the inability to memorize is a kind of regularization. Also my post from a while back on how the trend in model size is "backwards" and why "the models have to first get larger before they can get smaller" https://x.com/karpathy/status/1814038096218083497
+
+Of course, Karpathy is not the only person who noticed the problem with LLMs memorizing a bit too many things during pre-training. It's rather
+obvious that this kind of memory is not reliable (as many different documents are smushed together via gradient descent) and is one of
+main reasons of "hallucination" problem in LLMs. Facts memorized through pre-training can easily become stale, etc.
+
+Sam Altman also described something similar [in Jun 2025 fireside chat](https://youtu.be/qhnJDDX2hhU?si=LHWU23R8xt4wsaqw&t=1025) at 17:25:
+
+> The framework that I like to think about (this is not something we're about to ship but like the platonic ideal) is a very tiny model that has superhuman reasoning capabilities it can run ridiculously fast and one trillion tokens of context and access to every tool you can possibly imagine and so it doesn't kind of matter what the problem is, doesn't matter whether the model has the knowledge or the data in it or not.
+ Using these models as databases is sort of ridiculous -- very slow, expensive...
+
+So it's quite likely that this is, in fact, the direction which OpenAI and other frontier labs are heading towards. One data point we have is that GPT-5 is smaller than GPT-4.5: the size and breadth of factual knowledge was sacrificed for reasoning & agentic capabilities.
+
+If we live in the world where the best LLM is a cognitive core, how would the future look like? 
+
+I've tried mapping out possible consequences of this scenario.
+
+## 1. Resurgence of personal computing & open-source.
+
+Currently, proprietary models have a competitive edge, and frontier labs like OpenAI spend billions of dollars on model training.
+
+But it's unlikely they'd be able to maintain this advantage as optimal models become smaller. 
+
+Quoting Karpathy again, cognitive core would "only maintain the algorithms for thought, and the idea of an experiment, and all this cognitive glue of acting". I don't think these things would depend on some proprietary secret sauce. Thus we should expect open source models to converge to the same thing, at some point.
+
+Once it's down to the scale of billions of parameters, it would be feasible for people to run models locally without any expensive hardware.
+It's already feasible to run models of this size on mobile phones, but they are just not very useful.
+
+Beyond the obvious privacy benefits, it might be a lot easier to configure a local model to behave the way user wants, e.g. not shill advertised products, etc.
+
+## 2. Data providers would matter a lot more.
+
+As AI can no longer rely on facts stored in models' weights, access to reliable data becomes absolutely essential. And I'd expect this need
+to be fullfiled through various services similar to web search APIs.
+
+Juho Snellman [estimated](https://www.snellman.net/blog/archive/2025-06-02-llms-are-cheap/) that web search is already more expensive than LLM inference.
+
+If everyone uses the same "core", AI would be as smart as data you feed into it allows. "Garbage in, garbage out". So I hope there would be data providers offering 
+something better than scrap-quality data Google offers now.
+
+This might be a good fit for decentralized services, as [info finance](https://vitalik.eth.limo/general/2024/11/09/infofinance.html) might 
+address the problem with information asymmetry between data providers and AI users.
+
+## 3. Adapters & cartridges
+
+Both Karpathy and Altman present a baseline where a "cognitive core" gets everything from raw data.
+
+But a human doesn't obtain a skill just by reading a textbook: skill acquisition requires practice. Same is true for AI: we know that 
+best mathematical reasoning models were created through a process of reinforcement learning over many example problems.
+
+It's also generally wasteful to wait for AI to process all the data just to invoke a specific skill.
+
+Thus we should expect a wide use of adapters and cartridges which would encode specific skills and knowledge.
+
+The concept of "cartridge" comes from a June 2025 paper [Cartridges: Lightweight and general-purpose long context representations via self-study](https://arxiv.org/abs/2506.06266), which proposes distilling document self-study material into KV prefix.
+
+I doubt this would be exactly the way people would do it in the future, just as I doubt decoder-only transformers will be the state of the art a decade from now. But I think it's a neat way to think about what is possible, contrasting it to adapter-based approaches:
+
+ * LoRA effectively patches "something" with a MLP; but we don't know what exactly it patches, except that we get lower perplexity on a specific data set.
+ * on the other hand, a KV prefix is "in-context-learning-complete": everything LLM can learn from a context it can get from KV prefix. It can
+ be a substitute for any document, etc.
+ * cartridges are more likely to be composable, as concatenation of multiple documents/prompts is a natural way to combine them:
+    - we'd expect the attention mechanism to route relevant information from different cartridges, but no such routing mechanism exists
+    for LoRAs.
+ * prefix-tuning [was shown](https://arxiv.org/abs/2101.00190) to be equivalent to fine-tuning (albeit for small models)
+
+And, in general, it's just a fun way to visualize it: you get a generic core, plug in cartridges which give it smarts and skills you want, etc.
+

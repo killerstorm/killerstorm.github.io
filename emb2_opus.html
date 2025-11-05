@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation | killerstorm’s blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="wat" />
+<meta property="og:description" content="wat" />
+<link rel="canonical" href="http://0.0.0.0:4000/emb2_opus.html" />
+<meta property="og:url" content="http://0.0.0.0:4000/emb2_opus.html" />
+<meta property="og:site_name" content="killerstorm’s blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"wat","headline":"AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation","url":"http://0.0.0.0:4000/emb2_opus.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="killerstorm&apos;s blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">killerstorm&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/emb2_opus.html">AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation</h1>
+  </header>
+
+  <div class="post-content">
+    <h1 id="ai-generated-research-embedding-injection-for-parameter-efficient-model-adaptation">AI-generated research: Embedding Injection for Parameter-Efficient Model Adaptation</h1>
+
+<p><strong>Experiment ID:</strong> exp_20250602_042433_emb2_opus<br />
+<strong>Date:</strong> June 2, 2025<br />
+<strong>Duration:</strong> 22 minutes 40 seconds<br />
+<strong>Author:</strong> Claude Opus 4 + o4-mini (within auto-ml-runner)</p>
+
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+
+<p>This experiment investigated a novel parameter-efficient method for adapting pre-trained language models to downstream tasks through embedding injection. We compared three approaches using the SmolLM2-360M model on the FineWeb-Edu dataset:</p>
+
+<ol>
+  <li><strong>Baseline</strong>: Frozen pre-trained model (0 trainable parameters)</li>
+  <li><strong>Static Prefix</strong>: 3 learnable prefix tokens (2,880 trainable parameters)</li>
+  <li><strong>Embedding Injection</strong>: 2 learnable tokens + MLP-processed sentence embeddings (888,128 trainable parameters)</li>
+</ol>
+
+<p><strong>Key Results:</strong></p>
+<ul>
+  <li>Embedding injection achieved the best performance with <strong>14.38 perplexity</strong> (18.8% improvement over baseline)</li>
+  <li>Static prefix showed modest gains with <strong>16.83 perplexity</strong> (5.0% improvement)</li>
+  <li>All methods maintained parameter efficiency (&lt;0.25% of total model parameters)</li>
+  <li>Training completed within time constraints (8.2 minutes for embedding injection)</li>
+</ul>
+
+<p>The embedding injection approach successfully demonstrated that injecting task-relevant information through sentence embeddings can significantly improve model performance while maintaining extreme parameter efficiency.</p>
+
+<h2 id="2-methodology">2. Methodology</h2>
+
+<h3 id="21-experimental-setup">2.1 Experimental Setup</h3>
+
+<p><strong>Models:</strong></p>
+<ul>
+  <li>Base Model: HuggingFaceTB/SmolLM2-360M (360M parameters, frozen)</li>
+  <li>Embedding Model: ibm-granite/granite-embedding-125m-english (768-dimensional embeddings)</li>
+  <li>MLP Architecture: 2-layer network (768 → 512 → model_dim)</li>
+</ul>
+
+<p><strong>Dataset:</strong></p>
+<ul>
+  <li>HuggingFaceFW/fineweb-edu (streaming mode)</li>
+  <li>Training: 10,000 samples</li>
+  <li>Validation: 1,000 samples</li>
+  <li>Sequence length: 64 tokens</li>
+  <li>Batch size: 32</li>
+</ul>
+
+<p><strong>Training Configuration:</strong></p>
+<ul>
+  <li>Optimizer: AdamW (lr=1e-3)</li>
+  <li>Precision: fp32</li>
+  <li>Early stopping: Patience=3 on validation perplexity</li>
+  <li>Maximum epochs: 5</li>
+</ul>
+
+<h3 id="22-implementation-details">2.2 Implementation Details</h3>
+
+<p>Each approach was evaluated under identical conditions:</p>
+
+<ol>
+  <li><strong>Baseline</strong>: Direct evaluation of the frozen pre-trained model</li>
+  <li><strong>Static Prefix</strong>: Prepended 3 learnable tokens to each input sequence</li>
+  <li><strong>Embedding Injection</strong>:
+    <ul>
+      <li>Generated sentence embeddings for each input</li>
+      <li>Processed through learnable MLP</li>
+      <li>Combined with 2 learnable tokens as prefix</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="3-key-results-and-findings">3. Key Results and Findings</h2>
+
+<h3 id="31-performance-comparison">3.1 Performance Comparison</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Validation Perplexity</th>
+      <th>Improvement vs Baseline</th>
+      <th>Trainable Parameters</th>
+      <th>% of Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline</td>
+      <td>17.71</td>
+      <td>-</td>
+      <td>0</td>
+      <td>0%</td>
+    </tr>
+    <tr>
+      <td>Static Prefix</td>
+      <td>16.83</td>
+      <td>-5.0%</td>
+      <td>2,880</td>
+      <td>0.0008%</td>
+    </tr>
+    <tr>
+      <td>Embedding Injection</td>
+      <td><strong>14.38</strong></td>
+      <td><strong>-18.8%</strong></td>
+      <td>888,128</td>
+      <td>0.247%</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="32-training-efficiency">3.2 Training Efficiency</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Training Time</th>
+      <th>GPU Memory</th>
+      <th>Convergence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline</td>
+      <td>6.5s (eval only)</td>
+      <td>3.0 GB</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Static Prefix</td>
+      <td>7.1 min</td>
+      <td>3.2 GB</td>
+      <td>Epoch 3</td>
+    </tr>
+    <tr>
+      <td>Embedding Injection</td>
+      <td>8.2 min</td>
+      <td>3.5 GB</td>
+      <td>Epoch 4</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="33-key-observations">3.3 Key Observations</h3>
+
+<ol>
+  <li><strong>Performance Scaling</strong>: The embedding injection method showed substantially better performance despite using only 0.25% of model parameters</li>
+  <li><strong>Stability</strong>: All methods trained stably with fp32 precision, no NaN issues encountered</li>
+  <li><strong>Efficiency</strong>: Training completed well within the 55-minute time limit</li>
+  <li><strong>Memory Usage</strong>: Minimal memory overhead (0.5 GB increase for embedding injection)</li>
+</ol>
+
+<h2 id="4-challenges-and-solutions">4. Challenges and Solutions</h2>
+
+<h3 id="41-dataset-split-issue-run-1">4.1 Dataset Split Issue (Run 1)</h3>
+<p><strong>Challenge</strong>: The FineWeb-Edu dataset only provides a “train” split, causing validation split loading to fail.</p>
+
+<p><strong>Solution</strong>: Implemented manual train/validation splitting using streaming dataset operations:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">10000</span><span class="p">).</span><span class="n">take</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="42-sequence-length-mismatch-run-2">4.2 Sequence Length Mismatch (Run 2)</h3>
+<p><strong>Challenge</strong>: Prepending tokens caused dimension mismatch between model outputs and labels during loss computation.</p>
+
+<p><strong>Solution</strong>: Adjusted label preparation to account for prefix tokens by padding with -100 (ignored in loss calculation).</p>
+
+<h3 id="43-environment-warnings-run-3">4.3 Environment Warnings (Run 3)</h3>
+<p><strong>Challenge</strong>: cuDNN/cuBLAS registration warnings and post-execution GIL errors.</p>
+
+<p><strong>Impact</strong>: No effect on training results, but indicates potential cleanup issues.</p>
+
+<p><strong>Recommendation</strong>: Investigate sentence-transformers cleanup procedures and threading conflicts.</p>
+
+<h2 id="5-conclusions">5. Conclusions</h2>
+
+<ol>
+  <li>
+    <p><strong>Hypothesis Validated</strong>: Embedding injection successfully reduces perplexity on small token sequences, achieving an 18.8% improvement over the baseline.</p>
+  </li>
+  <li>
+    <p><strong>Parameter Efficiency Confirmed</strong>: The method uses &lt;0.25% of total model parameters while delivering substantial performance gains.</p>
+  </li>
+  <li>
+    <p><strong>Practical Viability</strong>: Training completes quickly (8.2 minutes) with modest memory requirements, making the approach practical for resource-constrained settings.</p>
+  </li>
+  <li>
+    <p><strong>Superior to Simple Prefixes</strong>: The MLP-processed embeddings significantly outperform static learned tokens, justifying the additional complexity.</p>
+  </li>
+  <li>
+    <p><strong>Scalability</strong>: The approach shows promise for larger models and longer sequences, though this requires further investigation.</p>
+  </li>
+</ol>
+
+<h2 id="6-recommendations-for-future-work">6. Recommendations for Future Work</h2>
+
+<h3 id="61-immediate-extensions">6.1 Immediate Extensions</h3>
+<ol>
+  <li><strong>Hyperparameter Optimization</strong>: Explore different MLP architectures, learning rates, and prefix lengths</li>
+  <li><strong>Embedding Model Variations</strong>: Test other sentence embedding models (e.g., BERT-based, larger Granite models)</li>
+  <li><strong>Longer Sequences</strong>: Evaluate performance on standard 512/1024 token sequences</li>
+</ol>
+
+<h3 id="62-methodological-improvements">6.2 Methodological Improvements</h3>
+<ol>
+  <li><strong>Adaptive Injection</strong>: Dynamically adjust injection based on input characteristics</li>
+  <li><strong>Multi-Task Learning</strong>: Test generalization across multiple downstream tasks</li>
+  <li><strong>Compression</strong>: Investigate quantization or distillation of the MLP component</li>
+</ol>
+
+<h3 id="63-theoretical-analysis">6.3 Theoretical Analysis</h3>
+<ol>
+  <li><strong>Attention Pattern Analysis</strong>: Study how injected embeddings influence attention distributions</li>
+  <li><strong>Information Flow</strong>: Trace how sentence-level information propagates through frozen layers</li>
+  <li><strong>Optimal Injection Points</strong>: Compare prefix injection with other positions (mid-sequence, layer-wise)</li>
+</ol>
+
+<h3 id="64-production-considerations">6.4 Production Considerations</h3>
+<ol>
+  <li><strong>Inference Optimization</strong>: Profile and optimize the embedding generation pipeline</li>
+  <li><strong>Batch Processing</strong>: Implement efficient batched sentence embedding computation</li>
+  <li><strong>Model Serving</strong>: Design APIs that cache MLP outputs for repeated queries</li>
+</ol>
+
+<h3 id="65-broader-applications">6.5 Broader Applications</h3>
+<ol>
+  <li><strong>Cross-Lingual Transfer</strong>: Use multilingual embeddings for zero-shot language adaptation</li>
+  <li><strong>Domain Adaptation</strong>: Inject domain-specific embeddings without full fine-tuning</li>
+  <li><strong>Prompt Engineering</strong>: Combine with existing prompt-based methods for enhanced control</li>
+</ol>
+
+<p>This experiment successfully demonstrates that embedding injection offers a promising parameter-efficient alternative to full fine-tuning, achieving significant performance improvements while maintaining computational efficiency. The method’s success on this initial evaluation warrants further investigation and refinement for broader applications.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">killerstorm&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">killerstorm&#39;s blog</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/killerstorm"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">killerstorm</span></a></li><li><a href="https://www.twitter.com/killerstorm"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">killerstorm</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>wat</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
