@@ -21,7 +21,7 @@ Of course, Karpathy is not the only person who noticed the problem with LLMs mem
 obvious that this kind of memory is not reliable (as many different documents are smushed together via gradient descent) and is one of
 main reasons of "hallucination" problem in LLMs. Facts memorized through pre-training can easily become stale, etc.
 
-Sam Altman also described something similar [in Jun 2025 fireside chat](https://youtu.be/qhnJDDX2hhU?si=LHWU23R8xt4wsaqw&t=1025) at 17:25:
+Sam Altman also described something similar [in June 2025 fireside chat](https://youtu.be/qhnJDDX2hhU?si=LHWU23R8xt4wsaqw&t=1025) at 17:25:
 
 > The framework that I like to think about (this is not something we're about to ship but like the platonic ideal) is a very tiny model that has superhuman reasoning capabilities it can run ridiculously fast and one trillion tokens of context and access to every tool you can possibly imagine and so it doesn't kind of matter what the problem is, doesn't matter whether the model has the knowledge or the data in it or not.
  Using these models as databases is sort of ridiculous -- very slow, expensive...
@@ -48,12 +48,12 @@ Beyond the obvious privacy benefits, it might be a lot easier to configure a loc
 ## 2. Data providers would matter a lot more.
 
 As AI can no longer rely on facts stored in models' weights, access to reliable data becomes absolutely essential. And I'd expect this need
-to be fullfiled through various services similar to web search APIs.
+to be fulfilled through various services similar to web search APIs.
 
 Juho Snellman [estimated](https://www.snellman.net/blog/archive/2025-06-02-llms-are-cheap/) that web search is already more expensive than LLM inference.
 
 If everyone uses the same "core", AI would be as smart as data you feed into it allows. "Garbage in, garbage out". So I hope there would be data providers offering 
-something better than scrap-quality data Google offers now.
+something better than scraped-quality data Google offers now.
 
 This might be a good fit for decentralized services, as [info finance](https://vitalik.eth.limo/general/2024/11/09/infofinance.html) might 
 address the problem with information asymmetry between data providers and AI users.
