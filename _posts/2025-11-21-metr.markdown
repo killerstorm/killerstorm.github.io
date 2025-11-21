@@ -1,0 +1,64 @@
+---
+layout: post
+title:  "METR's  time-horizon of software engineering tasks does not mean what you think it means"
+date:   2025-11-21
+categories: ai
+---
+
+Consider: [METR: Measuring AI Ability to Complete Long Tasks](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/)
+
+METR's "Measuring AI Ability to Complete Long Tasks" paper uses "a combination of RE-Bench, HCAST, and 66 novel shorter tasks" to measure "50%-task-completion time horizon", which is defined as:
+
+>  This is the time humans typically take to complete tasks that AI models can complete with 50% success rate.
+
+The purpose of this metric is forecasting AI capabilities over time (as of November 2025, it fits a nice exponential trend line with ~7 months doubling time). But people often take the metric's description literally and might miss out on the nuance.
+
+E.g. the current leader on the graph is GPT-5.1-Codex-Max with task length estimate of 2 hours 41 minutes at 50% success rate. For 
+an 80% success rate (which METR also reports) the task length is only 31 minutes. So people take it to mean that frontier models 
+can only handle basic tasks.
+
+This contradicts reports that frontier LLM coding agents are able to perform rather complex tasks, e.g. "one-shot" a game which can take
+experienced developers weeks to implement. Some people tend to dismiss these reports using "it must be in the training data" argument 
+(it's rather hard to assess what kind of games or web sites are actually in the training data). But we also have serious programmers reporting
+on serious tasks taken on by LLMs, e.g: 
+
+ * [FAWK: LLMs can write a language interpreter](https://martin.janiczek.cz/2025/11/21/fawk-llms-can-write-a-language-interpreter.html)
+ * [Claude Code Can Debug Low-level Cryptography](https://words.filippo.io/claude-debugging/)
+
+ Let's look deeper into what METR's metric actually represents:
+
+ > For each model, we can fit a logistic curve to predict model success probability using human task length.
+
+ So it's not particularly easy to map it to specific task performance, especially in the case of RE-Bench where human baseline is based on a 8-hour human work effort.
+
+ When METR applied their methodology to their own human baseline raw data (i.e. without a success filter), they got 1.5 hours for 50% success rate. I.e. if we use this methodology  against human experts hired by METR, we can "conclude" that humans can do only 1.5 hour tasks at 50% success rate. (I feel like this generally  confirms common wisdom that human devs are also rather unreliable.) Here's are relevant quotes from [the paper](https://arxiv.org/pdf/2503.14499):
+
+ > We aggregate human baseline times into a task length rating by taking the geometric mean time of **successful** baseline runs
+
+...
+
+> We chose to **filter successful runs** for two main reasons ... Secondly, we wanted to exclude cases where the baseline failed for reasons that are
+not applicable to models. A substantial fraction of human failures appeared to fall in this category -
+including humans having insufficient expertise for the task, or giving up on a task for unclear reasons
+
+...
+
+> **Human time horizon**: An alternative approach would be to calculate the human time horizon using
+the same methodology as we do for models. One natural interpretation of time horizon would imply
+that the time horizon of “a human given x hours” is x hours. Since our baseliners were paid for
+spending up to 8 hours per task, we would expect their time horizon to be around 8 hours. However,
+in practice it’s much lower, at around 1.5 hours (which would imply that the best models will surpass
+humans in under 7 months). As discussed above, we think this is artificially low, given that many
+human failures seemed to be artifacts of our incentive scheme.
+
+In other words, humans were given benefit of doubt, but models aren't. METR recognizes that it introduces a bias:
+
+> However, conditioning on success biases towards shorter task length ratings, thereby underestimating model performance. 
+
+But, of course, this does not matter much for forecasting purposes where you care more about _relative_ progress rather than what the absolute number represents. But it matters if we do "LLM vs human software engineer" comparison.
+
+In other news, raw human baseline was surpassed by GPT-5, and, perhaps, even o3, back in April 2025, 6 months ahead of
+what METR anticipated (the best model at the time the paper was written was Sonnet 3.7, now clearly known as rather defective
+when it comes to agentic coding).
+
+As we are approaching singularity, we are no longer able to process and understand the entirety of available information.
