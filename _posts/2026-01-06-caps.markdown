@@ -1,0 +1,67 @@
+---
+layout: post
+title:  A connection between capability-based security and lambda calculus
+categories: software
+---
+
+## Motivation
+
+The security model commonly used in desktop operating systems nowadays is woefully inadequate: it was originally designed
+to protect user A from user B, but not user A from program A. There's a built-in assumption that users take 
+responsibility for all software they choose to run.
+
+This is particularly bad for developers who often rely on a large number of tools they download from the internet.
+(Web devs have it the worst: `npm install` is essentially equivalent to doing `curl ... | sh` thousands of times!)
+
+To some extent this might be addressed via isolation (virtual machines, containers, sandboxes...). But there's still a question:
+what are we isolating from what? Obviously, if we are running the entire development environment in a VM, we are back to square one:
+one malicious program can covertly corrupt the entire environment. 
+
+Guidance might come from the principle of least privilege: ideally, each program should only have access to resources it needs.
+Applying this principle might benefit from a dynamic, fine-grained way to control access to resources, known as capability-based security.
+
+When capability-based security is implemented on an operating system level, security boundaries are between processes.
+
+## Object-capability model
+
+It can also be implemented on a programming language level (known as the "object-capability model") -- then a security boundary can be created between different parts of a single program.
+
+That's increasingly relevant as supply chain attacks become more common. It would be nice to apply the principle of least authority 
+to libraries: e.g. a charting library should not have access to the filesystem.
+
+As this kind of programming language is not yet common, there are many misconceptions: people might believe that it requires special 
+hardware or operating system support, or that it comes with a huge overhead. The `object-` part of the name also suggests a (spurious) connection to OOP.
+
+## Lambda calculus
+
+But it can be very simple: lambda calculus by itself is sufficient to enjoy the object-capability model's security.
+Lambda calculus formalism simply does not provide a way to reference objects which are not passed as parameters and not visible via free variables.
+Thus if free variables (i.e. globals) are forbidden, different parts of a program are naturally isolated from each other.
+
+But most functional programming languages, including purely functional ones like Haskell, do not offer the object-capability model out of the box,
+as `import` statements provide a way to sneak in ambient authority: one might import a system module which gives access to the filesystem.
+
+Another way to describe it is that lexical scoping provides isolation, but 
+global scope breaks it. An ambient authority -- i.e. an implicit way to access a resource -- can only sneak through a global scope or a logical mistake.
+
+Now we can see that switching to the object-capability model might be as simple as imposing restrictions on imports. 
+
+This also demonstrates that the object-capability model does not come with any runtime overhead beyond a ban on low-level extensions which 
+go beyond lambda calculus.
+
+## Other models of computation
+
+A link between lambda calculus and capability-based security is even more striking when we consider how it might work in other models of computation.
+
+In the case of a Universal Turing Machine, the program is read from a tape, and thus absolutely nothing can be said about isolation of different 
+parts of a program, as a distinction between different parts just does not exist on this level. Analyzing security properties of an arbitrary
+program is likely as hard as a halting problem.
+
+Even if you create this distinction explicitly: e.g. using UTM together with a "boot loader" prefix which will then execute several programs
+one by one, in a general case nothing stops one program from invading the space of another.
+
+The same is true for von Neumann architecture: if there's a single address space, any part of a program can reference any other part.
+
+## Conclusion
+
+I hope it might be possible to consider the object-capability model to be just functional programming done right rather than some exotic alternative.
